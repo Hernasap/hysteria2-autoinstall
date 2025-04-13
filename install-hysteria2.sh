@@ -2,7 +2,7 @@
 
 # ====================================
 # AUTO-INSTALL HYSTERIA2 + DOMAIN + USER PANEL
-# By ChatGPT | https://github.com/Hernasap
+# By XXDonn | https://github.com/Hernasap
 # ====================================
 
 clear
