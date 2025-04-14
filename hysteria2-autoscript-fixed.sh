@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 echo "==================================="
-echo " HYSTERIA2 AUTO INSTALLER BY GPT  "
+echo " HYSTERIA2 AUTO INSTALLER BY XXDON  "
 echo "==================================="
 read -rp "Masukkan domain (pastikan sudah diarahkan ke IP VPS): " DOMAIN
 
@@ -12,7 +12,7 @@ apt update -y && apt install curl jq wget tar -y
 curl -s https://get.hy2.sh | bash
 
 # Buat direktori config
-mkdir -p /etc/hysteria
+mkdir -p /etc/hysteria/users
 
 # Generate sertifikat self-signed
 openssl req -x509 -newkey rsa:2048 -nodes -keyout /etc/hysteria/key.pem -out /etc/hysteria/cert.pem -subj "/CN=${DOMAIN}" -days 365
@@ -58,6 +58,7 @@ cat <<'EOF' > /usr/bin/hysteria-menu
 
 CONF_DIR="/etc/hysteria"
 USER_DIR="$CONF_DIR/users"
+DOMAIN=$(grep url $CONF_DIR/config.yaml | awk -F/ '{print $3}')
 
 mkdir -p "$USER_DIR"
 
@@ -67,11 +68,10 @@ function add_user() {
   echo "$pass" > "$USER_DIR/$user"
   cat <<EOL
 === KONFIGURASI CLIENT ===
-server: $DOMAIN
+remark: $user
+address: $DOMAIN
 port: 443
-auth: $pass
-tls: true
-obfs: ""
+password: $pass
 EOL
 }
 
